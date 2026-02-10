@@ -19,6 +19,19 @@ export const HomePage: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!isCameraOpen) return;
+    const video = videoRef.current;
+    const stream = streamRef.current;
+    if (video && stream) {
+      video.srcObject = stream;
+      video.muted = true;
+      video.onloadedmetadata = () => {
+        video.play().catch(() => {});
+      };
+    }
+  }, [isCameraOpen]);
+
+  useEffect(() => {
     localStorage.removeItem("pending_receipt");
     setPreviewUrl(null);
     setPreviewMime(null);
@@ -64,9 +77,6 @@ export const HomePage: React.FC = () => {
         audio: false
       });
       streamRef.current = stream;
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-      }
       setIsCameraOpen(true);
     } catch (err) {
       console.error("Camera error:", err);

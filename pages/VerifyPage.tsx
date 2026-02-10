@@ -123,14 +123,6 @@ export const VerifyPage: React.FC = () => {
       </div>
 
       <section className="lg:w-1/2 w-full bg-[#eef0f2] dark:bg-slate-950 relative flex flex-col border-r border-slate-200 dark:border-slate-800">
-        <div className="absolute top-6 right-6 z-10 flex flex-col gap-2">
-          <button className="bg-white/90 dark:bg-slate-800 p-3 rounded-xl shadow-lg hover:bg-primary hover:text-white transition-all text-slate-600 dark:text-slate-300 border border-slate-200/50">
-            <span className="material-icons">zoom_in</span>
-          </button>
-          <button className="bg-white/90 dark:bg-slate-800 p-3 rounded-xl shadow-lg hover:bg-primary hover:text-white transition-all text-slate-600 dark:text-slate-300 border border-slate-200/50">
-            <span className="material-icons">rotate_right</span>
-          </button>
-        </div>
         <div className="flex-1 overflow-auto p-8 lg:p-12 flex items-start justify-center">
           <div className="relative bg-white shadow-2xl rounded-sm max-w-full ring-1 ring-slate-200 overflow-hidden">
             {receipt?.mimeType === "application/pdf" ? (
