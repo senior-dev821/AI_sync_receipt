@@ -1,0 +1,8 @@
+
+{
+  "name": "LACompuTech Receipt AI",
+  "description": "Professional-grade data extraction for industrial job sites. Instant vendor detection and expense categorization using Gemini AI.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
