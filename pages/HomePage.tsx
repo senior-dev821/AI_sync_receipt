@@ -256,7 +256,7 @@ export const HomePage: React.FC = () => {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <span className="material-symbols-outlined text-primary animate-pulse">psychology</span>
-                  <span className="font-black text-white uppercase tracking-[0.2em] text-[11px]">LA-Compute AI Engine</span>
+                  <span className="font-black text-white uppercase tracking-[0.2em] text-[11px]">AI Powered Engine</span>
                 </div>
                 {/* <span className="text-[9px] font-black text-slate-500 uppercase">Version 4.0 High-Res</span> */}
               </div>
