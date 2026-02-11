@@ -103,9 +103,9 @@ export const AICallsPage: React.FC = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-10 pb-32">
+    <div className="max-w-6xl mx-auto px-4 py-10 pb-32 text-slate-100">
       <div className="mb-10">
-        <h1 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tight flex items-center gap-2">
+        <h1 className="text-2xl font-black text-slate-100 uppercase tracking-tight flex items-center gap-2">
           <span className="material-icons text-primary">psychology</span>
           OpenAI Call History
         </h1>
@@ -113,17 +113,17 @@ export const AICallsPage: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-        <div className="bg-brand-black p-6 rounded-3xl shadow-xl border border-white/10">
+        <div className="bg-[#0b1020] p-6 rounded-3xl shadow-xl border border-slate-800/70">
           <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Total Calls</p>
           <h4 className="text-3xl font-black text-white">{total}</h4>
         </div>
-        <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl shadow-lg border border-slate-200 dark:border-slate-800">
+        <div className="bg-[#0f1522] p-6 rounded-3xl shadow-lg border border-slate-800/70">
           <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Error Rate</p>
           <h4 className="text-3xl font-black text-amber-600">{errorRate}%</h4>
         </div>
-        <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl shadow-lg border border-slate-200 dark:border-slate-800">
+        <div className="bg-[#0f1522] p-6 rounded-3xl shadow-lg border border-slate-800/70">
           <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Avg Duration</p>
-          <h4 className="text-3xl font-black text-slate-900 dark:text-white">{summary.avgDuration} ms</h4>
+          <h4 className="text-3xl font-black text-slate-100">{summary.avgDuration} ms</h4>
         </div>
       </div>
 
@@ -131,7 +131,7 @@ export const AICallsPage: React.FC = () => {
         <div className="relative flex-grow">
           <span className="material-icons absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">search</span>
           <input
-            className="w-full pl-12 pr-4 py-3.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none shadow-sm dark:text-white"
+            className="w-full pl-12 pr-4 py-3.5 bg-[#0f1522] border border-slate-800/70 rounded-2xl focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none shadow-sm text-slate-100"
             placeholder="Search by model, type, status, filename..."
             type="text"
             value={searchTerm}
@@ -144,7 +144,7 @@ export const AICallsPage: React.FC = () => {
             className={`px-4 py-3 rounded-2xl text-sm font-bold uppercase tracking-wider border transition-all ${
               statusFilter === "all"
                 ? "bg-primary text-white border-primary"
-                : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300"
+                : "bg-[#0f1522] border-slate-800/70 text-slate-300"
             }`}
           >
             All
@@ -154,7 +154,7 @@ export const AICallsPage: React.FC = () => {
             className={`px-4 py-3 rounded-2xl text-sm font-bold uppercase tracking-wider border transition-all ${
               statusFilter === "success"
                 ? "bg-emerald-600 text-white border-emerald-600"
-                : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300"
+                : "bg-[#0f1522] border-slate-800/70 text-slate-300"
             }`}
           >
             Success
@@ -164,22 +164,22 @@ export const AICallsPage: React.FC = () => {
             className={`px-4 py-3 rounded-2xl text-sm font-bold uppercase tracking-wider border transition-all ${
               statusFilter === "error"
                 ? "bg-amber-600 text-white border-amber-600"
-                : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300"
+                : "bg-[#0f1522] border-slate-800/70 text-slate-300"
             }`}
           >
             Errors
           </button>
           <button
             onClick={handleExport}
-            className="px-4 py-3 rounded-2xl text-sm font-bold uppercase tracking-wider border transition-all bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:border-primary/50"
+            className="px-4 py-3 rounded-2xl text-sm font-bold uppercase tracking-wider transition-all bg-gradient-to-r from-cyan-400 via-blue-500 to-fuchsia-500 hover:from-cyan-300 hover:to-fuchsia-400 text-white shadow-lg shadow-cyan-500/30"
           >
             Export CSV
           </button>
         </div>
       </div>
 
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden">
-        <div className="grid grid-cols-12 gap-4 px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 border-b border-slate-100 dark:border-slate-800">
+      <div className="bg-[#0f1522] border border-slate-800/70 rounded-2xl overflow-hidden">
+        <div className="grid grid-cols-12 gap-4 px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 border-b border-slate-800/70">
           <div className="col-span-3">Model</div>
           <div className="col-span-2">Type</div>
           <div className="col-span-2">Status</div>
@@ -190,24 +190,24 @@ export const AICallsPage: React.FC = () => {
         {filtered.map((record) => (
           <div
             key={record.id}
-            className="grid grid-cols-12 gap-4 px-6 py-4 border-b border-slate-100 dark:border-slate-800 last:border-b-0 text-sm"
+            className="grid grid-cols-12 gap-4 px-6 py-4 border-b border-slate-800/70 last:border-b-0 text-sm"
           >
-            <div className="col-span-3 font-bold text-slate-900 dark:text-white truncate">{record.model}</div>
-            <div className="col-span-2 text-slate-600 dark:text-slate-300 uppercase text-xs font-bold tracking-widest">
+            <div className="col-span-3 font-bold text-slate-100 truncate">{record.model}</div>
+            <div className="col-span-2 text-slate-300 uppercase text-xs font-bold tracking-widest">
               {record.input_type}
             </div>
             <div className="col-span-2">
               <span
                 className={`inline-flex items-center px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest ${
                   record.status === "success"
-                    ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400"
-                    : "bg-amber-50 text-amber-700 dark:bg-amber-950 dark:text-amber-400"
+                    ? "bg-emerald-900/30 text-emerald-300"
+                    : "bg-amber-900/30 text-amber-300"
                 }`}
               >
                 {record.status}
               </span>
             </div>
-            <div className="col-span-2 text-slate-600 dark:text-slate-300">{record.duration_ms} ms</div>
+            <div className="col-span-2 text-slate-300">{record.duration_ms} ms</div>
             <div className="col-span-2 text-slate-500 text-xs font-semibold">
               {new Date(record.created_at).toLocaleString()}
             </div>
@@ -228,7 +228,7 @@ export const AICallsPage: React.FC = () => {
           </div>
         ))}
         {filtered.length === 0 && (
-          <div className="p-10 text-center text-slate-400 text-sm">No AI calls found.</div>
+          <div className="p-10 text-center text-slate-500 text-sm">No AI calls found.</div>
         )}
       </div>
 
@@ -239,14 +239,14 @@ export const AICallsPage: React.FC = () => {
         <div className="flex gap-3">
           <button
             onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-            className="px-4 py-2 rounded-xl text-sm font-bold uppercase tracking-wider border bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 disabled:opacity-50"
+            className="px-4 py-2 rounded-xl text-sm font-bold uppercase tracking-wider border bg-[#0f1522] border-slate-800/70 text-slate-300 disabled:opacity-50"
             disabled={page === 1}
           >
             Prev
           </button>
           <button
             onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
-            className="px-4 py-2 rounded-xl text-sm font-bold uppercase tracking-wider border bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 disabled:opacity-50"
+            className="px-4 py-2 rounded-xl text-sm font-bold uppercase tracking-wider border bg-[#0f1522] border-slate-800/70 text-slate-300 disabled:opacity-50"
             disabled={page >= totalPages}
           >
             Next

@@ -154,17 +154,21 @@ export const HomePage: React.FC = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8 sm:py-12">
-      <div className="text-center mb-12">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest mb-4">
+    <div className="max-w-6xl mx-auto px-4 py-8 sm:py-12 text-slate-100">
+      <div className="text-center mb-16 relative">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-cyan-400/30 bg-[#0f1a2a]/60 text-[10px] font-black uppercase tracking-[0.3em] text-slate-200 backdrop-blur mb-6">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
           </span>
           Real-Time AI Extraction
         </div>
-        <h1 className="text-4xl sm:text-6xl font-black text-brand-black dark:text-white mb-6 tracking-tight">Receipt Upload & Scan</h1>
-        <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
+        <h1 className="text-4xl sm:text-6xl font-black mb-6 tracking-tight">
+          <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-fuchsia-500 bg-clip-text text-transparent">
+            Receipt Upload & Scan
+          </span>
+        </h1>
+        <p className="text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
           Professional-grade data extraction for industrial job sites. Instant vendor detection and expense categorization.
         </p>
       </div>
@@ -172,28 +176,28 @@ export const HomePage: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Left Section: Upload & History */}
         <div className="lg:col-span-7 space-y-6">
-          <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-xl shadow-slate-200/60 dark:shadow-none border border-slate-200 dark:border-slate-800 p-8 sm:p-12 flex flex-col items-center justify-center min-h-[460px] relative overflow-hidden group">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-brand-black/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+          <div className="bg-[#0f1522] rounded-3xl border border-slate-800/70 p-8 sm:p-12 flex flex-col items-center justify-center min-h-[460px] relative overflow-hidden group shadow-[0_0_40px_rgba(15,23,42,0.4)]">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
             
             {isUploading ? (
               <div className="flex flex-col items-center justify-center space-y-6">
-                <div className="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center">
+                <div className="w-20 h-20 bg-primary/15 rounded-2xl flex items-center justify-center">
                   <span className="material-symbols-outlined text-primary text-5xl">receipt_long</span>
                 </div>
                 <div className="text-center">
-                  <p className="text-lg font-black text-brand-black dark:text-white uppercase tracking-wider">Scanning Receipt</p>
+                  <p className="text-lg font-black text-slate-100 uppercase tracking-wider">Scanning Receipt</p>
                   <p className="text-[10px] text-slate-500 mt-2 uppercase tracking-[0.25em] font-bold">Hold on...</p>
                 </div>
               </div>
             ) : (
               <>
-                <div className="w-24 h-24 bg-slate-50 dark:bg-slate-800 rounded-2xl flex items-center justify-center mb-10 shadow-inner group-hover:scale-110 transition-transform duration-500">
+                <div className="w-24 h-24 bg-[#0b1020] rounded-2xl flex items-center justify-center mb-10 shadow-inner group-hover:scale-110 transition-transform duration-500">
                   <span className="material-symbols-outlined text-primary text-6xl">cloud_upload</span>
                 </div>
                 <div className="space-y-4 w-full max-w-sm relative z-10">
                   <button 
                     onClick={handleCameraClick}
-                    className="w-full bg-primary hover:bg-primary-dark text-white font-black py-6 px-8 rounded-2xl flex items-center justify-center gap-4 shadow-lg shadow-primary/25 active:scale-[0.97] transition-all uppercase tracking-wider text-lg"
+                    className="w-full bg-gradient-to-r from-cyan-400 via-blue-500 to-fuchsia-500 hover:from-cyan-300 hover:to-fuchsia-400 text-white font-black py-6 px-8 rounded-2xl flex items-center justify-center gap-4 shadow-lg shadow-cyan-500/30 active:scale-[0.97] transition-all uppercase tracking-wider text-lg"
                   >
                     <span className="material-symbols-outlined text-2xl">photo_camera</span>
                     Capture Receipt
@@ -215,14 +219,14 @@ export const HomePage: React.FC = () => {
                   />
                   
                   <div className="relative flex py-4 items-center">
-                    <div className="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
-                    <span className="flex-shrink mx-6 text-slate-400 text-[10px] font-black uppercase tracking-[0.3em]">Direct Upload</span>
-                    <div className="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
+                    <div className="flex-grow border-t border-slate-800"></div>
+                    <span className="flex-shrink mx-6 text-slate-500 text-[10px] font-black uppercase tracking-[0.3em]">Direct Upload</span>
+                    <div className="flex-grow border-t border-slate-800"></div>
                   </div>
                   
                   <button 
                     onClick={handleUploadClick}
-                    className="w-full bg-white dark:bg-slate-800 border-2 border-brand-black dark:border-slate-600 text-brand-black dark:text-white hover:bg-slate-50 dark:hover:bg-slate-700 font-black py-5 px-8 rounded-2xl flex items-center justify-center gap-4 transition-all uppercase tracking-wider"
+                    className="w-full bg-[#0b1020] border-2 border-slate-700 text-slate-200 hover:bg-[#12192b] font-black py-5 px-8 rounded-2xl flex items-center justify-center gap-4 transition-all uppercase tracking-wider"
                   >
                     <span className="material-symbols-outlined">add_to_photos</span>
                     Select Local File
@@ -233,26 +237,26 @@ export const HomePage: React.FC = () => {
                     {cameraError}
                   </div>
                 )}
-                <div className="mt-12 flex items-center gap-3 py-2 px-4 rounded-full bg-slate-100 dark:bg-slate-800/50">
+                <div className="mt-12 flex items-center gap-3 py-2 px-4 rounded-full bg-[#0b1020]">
                   <span className="material-symbols-outlined text-primary text-sm">info</span>
-                  <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Supports PDF, JPG, PNG (Max 25MB)</span>
+                  <span className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Supports PDF, JPG, PNG (Max 25MB)</span>
                 </div>
               </>
             )}
           </div>
 
           {/* Activity Log */}
-          <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-lg border border-slate-200 dark:border-slate-800 overflow-hidden">
-            <div className="px-8 py-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
-              <h2 className="font-black text-brand-black dark:text-white text-xl tracking-tight uppercase">Site Activity</h2>
+          <div className="bg-[#0f1522] rounded-3xl border border-slate-800/70 overflow-hidden">
+            <div className="px-8 py-6 border-b border-slate-800/70 flex justify-between items-center">
+              <h2 className="font-black text-slate-100 text-xl tracking-tight uppercase">Site Activity</h2>
               <button onClick={() => navigate('/history')} className="text-[10px] font-black text-primary uppercase tracking-[0.2em] cursor-pointer hover:underline">Full Log</button>
             </div>
-            <div className="divide-y divide-slate-100 dark:divide-slate-800">
+            <div className="divide-y divide-slate-800/70">
               {activityRecords.map((record) => (
-                <div key={record.id} className="p-6 flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                <div key={record.id} className="p-6 flex items-center justify-between hover:bg-[#12192b] transition-colors">
                   <div className="flex items-center gap-5">
-                    <div className="w-12 h-12 bg-slate-100 dark:bg-slate-800 rounded-xl flex items-center justify-center border border-slate-200 dark:border-slate-700">
-                      <span className="material-symbols-outlined text-slate-300">
+                    <div className="w-12 h-12 bg-[#0b1020] rounded-xl flex items-center justify-center border border-slate-800/70">
+                      <span className="material-symbols-outlined text-slate-400">
                         {record.category === "Materials" ? "receipt_long" : record.category === "Equipment" ? "construction" : "local_gas_station"}
                       </span>
                     </div>
@@ -266,7 +270,7 @@ export const HomePage: React.FC = () => {
                   <div className="text-right">
                     <p className="font-black text-slate-100 text-xl">${record.amount.toLocaleString()}</p>
                     <span className={`inline-flex items-center px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-widest mt-1 ${
-                      record.status === "Verified" ? "bg-emerald-100 text-emerald-800" : "bg-amber-100 text-amber-800"
+                      record.status === "Verified" ? "bg-emerald-900/30 text-emerald-300" : "bg-amber-900/30 text-amber-300"
                     }`}>
                       {record.status}
                     </span>
@@ -274,7 +278,7 @@ export const HomePage: React.FC = () => {
                 </div>
               ))}
               {activityRecords.length === 0 && (
-                <div className="p-6 text-center text-slate-400 text-sm">
+                <div className="p-6 text-center text-slate-500 text-sm">
                   Recent activity appears after you approve a receipt.
                 </div>
               )}
@@ -284,8 +288,8 @@ export const HomePage: React.FC = () => {
 
         {/* Right Section: AI Preview */}
         <div className="lg:col-span-5">
-          <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 sticky top-28 overflow-hidden">
-            <div className="bg-brand-black p-6 border-b border-brand-black">
+          <div className="bg-[#0f1522] rounded-3xl border border-slate-800/70 sticky top-28 overflow-hidden shadow-[0_0_40px_rgba(15,23,42,0.4)]">
+            <div className="bg-[#0b1020] p-6 border-b border-slate-800/70">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <span className="material-symbols-outlined text-primary animate-pulse">psychology</span>
@@ -295,7 +299,7 @@ export const HomePage: React.FC = () => {
               </div>
             </div>
             <div className="p-8">
-              <div className="relative w-full aspect-[4/5] bg-slate-950 rounded-2xl mb-8 overflow-hidden ring-1 ring-slate-800">
+              <div className="relative w-full aspect-[4/5] bg-[#05070f] rounded-2xl mb-8 overflow-hidden ring-1 ring-slate-800/80">
                 {previewMime === "application/pdf" ? (
                   <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-200/70">
                     <span className="material-symbols-outlined text-6xl text-primary">picture_as_pdf</span>
@@ -316,7 +320,7 @@ export const HomePage: React.FC = () => {
               </div>
 
               <div className="space-y-2">
-                <div className="flex items-center gap-3 text-slate-600 dark:text-slate-300">
+                <div className="flex items-center gap-3 text-slate-300">
                   <span className="material-symbols-outlined text-primary">autorenew</span>
                   <span className="text-xs font-black uppercase tracking-widest text-primary">AI Scan Active</span>
                 </div>
@@ -328,9 +332,9 @@ export const HomePage: React.FC = () => {
 
       {isCameraOpen && (
         <div className="fixed inset-0 z-[60] bg-black/70 backdrop-blur-sm flex items-center justify-center px-4">
-          <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-2xl overflow-hidden">
-            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-800">
-              <h3 className="font-black uppercase tracking-wider text-sm text-slate-900 dark:text-white">Camera Capture</h3>
+          <div className="bg-[#0f1522] rounded-3xl shadow-2xl border border-slate-800/70 w-full max-w-2xl overflow-hidden">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800/70">
+              <h3 className="font-black uppercase tracking-wider text-sm text-slate-100">Camera Capture</h3>
               <button onClick={stopCamera} className="text-slate-500 hover:text-primary">
                 <span className="material-icons">close</span>
               </button>
@@ -342,13 +346,13 @@ export const HomePage: React.FC = () => {
               <div className="mt-6 flex justify-between items-center">
                 <button
                   onClick={stopCamera}
-                  className="px-6 py-3 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-black uppercase tracking-widest text-xs"
+                  className="px-6 py-3 rounded-2xl bg-[#0b1020] text-slate-300 font-black uppercase tracking-widest text-xs"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleCapture}
-                  className="px-6 py-3 rounded-2xl bg-primary text-white font-black uppercase tracking-widest text-xs shadow-lg shadow-primary/30"
+                  className="px-6 py-3 rounded-2xl bg-gradient-to-r from-cyan-400 via-blue-500 to-fuchsia-500 hover:from-cyan-300 hover:to-fuchsia-400 text-white font-black uppercase tracking-widest text-xs shadow-lg shadow-cyan-500/30"
                 >
                   Capture Photo
                 </button>
