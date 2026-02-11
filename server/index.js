@@ -200,6 +200,15 @@ app.post("/api/receipts", async (req, res) => {
   res.json({ id: result.lastInsertRowid });
 });
 
+app.delete("/api/receipts/:id", async (req, res) => {
+  const id = Number(req.params.id);
+  if (!id) {
+    return res.status(400).json({ error: "Invalid receipt id" });
+  }
+  const result = db.prepare("DELETE FROM receipts WHERE id = ?").run(id);
+  res.json({ deleted: result.changes });
+});
+
 app.get("/api/receipts/export", async (req, res) => {
   const filters = [];
   const params = [];
@@ -293,6 +302,15 @@ app.get("/api/ai-calls", async (req, res) => {
       avgDuration: summary?.avgDuration ? Math.round(summary.avgDuration) : 0
     }
   });
+});
+
+app.delete("/api/ai-calls/:id", async (req, res) => {
+  const id = Number(req.params.id);
+  if (!id) {
+    return res.status(400).json({ error: "Invalid ai_call id" });
+  }
+  const result = db.prepare("DELETE FROM ai_calls WHERE id = ?").run(id);
+  res.json({ deleted: result.changes });
 });
 
 if (isProd) {

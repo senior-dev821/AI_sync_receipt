@@ -39,33 +39,51 @@ export const HomePage: React.FC = () => {
 
   useEffect(() => {
     fetchReceipts({ page: 1, pageSize: 3 })
-      .then((response) => setActivityRecords(response.items))
+      .then((response) => {
+        console.log("[Home] Activity records loaded", { count: response.items.length });
+        setActivityRecords(response.items);
+      })
       .catch((error) => {
-        console.error("Failed to load activity records:", error);
+        console.error("[Home] Failed to load activity records:", error);
         setActivityRecords([]);
       });
   }, []);
 
   const handleUploadClick = () => {
+    console.log("[Home] Select file clicked");
     fileInputRef.current?.click();
   };
 
   const beginUploadFlow = async (payload: { dataUrl: string; mimeType: string; filename?: string }) => {
+    console.log("[Home] Upload flow started", { mimeType: payload.mimeType, filename: payload.filename });
     setIsUploading(true);
     setPreviewUrl(payload.dataUrl);
     setPreviewMime(payload.mimeType);
-    localStorage.setItem("pending_receipt", JSON.stringify(payload));
+    let stored = true;
     try {
+      localStorage.setItem("pending_receipt", JSON.stringify(payload));
+    } catch (err) {
+      stored = false;
+      console.warn("[Home] Pending receipt too large for localStorage, using navigation state");
+    }
+    try {
+      console.log("[Home] Calling extraction API");
       const result = await extractReceiptData(payload);
-      localStorage.setItem("pending_result", JSON.stringify(result));
-      navigate("/verify");
+      console.log("[Home] Extraction result received", result);
+      if (stored) {
+        localStorage.setItem("pending_result", JSON.stringify(result));
+        navigate("/verify");
+      } else {
+        navigate("/verify", { state: { receipt: payload, result } });
+      }
     } catch (error) {
-      console.error("Extraction failed:", error);
+      console.error("[Home] Extraction failed:", error);
       setIsUploading(false);
     }
   };
 
   const handleCameraClick = async () => {
+    console.log("[Home] Camera capture requested");
     if (!navigator.mediaDevices?.getUserMedia) {
       cameraInputRef.current?.click();
       return;
@@ -76,10 +94,11 @@ export const HomePage: React.FC = () => {
         video: { facingMode: { ideal: "environment" } },
         audio: false
       });
+      console.log("[Home] Camera stream started");
       streamRef.current = stream;
       setIsCameraOpen(true);
     } catch (err) {
-      console.error("Camera error:", err);
+      console.error("[Home] Camera error:", err);
       setCameraError("Camera access blocked. Use file upload instead.");
       cameraInputRef.current?.click();
     }
@@ -95,6 +114,7 @@ export const HomePage: React.FC = () => {
   };
 
   const handleCapture = () => {
+    console.log("[Home] Capturing camera frame");
     const video = videoRef.current;
     if (!video) return;
     const canvas = document.createElement("canvas");
@@ -109,6 +129,7 @@ export const HomePage: React.FC = () => {
       mimeType: "image/jpeg",
       filename: "camera-capture.jpg"
     };
+    console.log("[Home] Camera capture ready");
     beginUploadFlow(payload);
     stopCamera();
   };
@@ -116,6 +137,7 @@ export const HomePage: React.FC = () => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      console.log("[Home] File selected", { name: file.name, type: file.type, size: file.size });
       const reader = new FileReader();
       reader.onload = () => {
         const dataUrl = reader.result as string;
@@ -124,6 +146,7 @@ export const HomePage: React.FC = () => {
           mimeType: file.type || "application/octet-stream",
           filename: file.name
         };
+        console.log("[Home] File loaded, starting extraction");
         beginUploadFlow(payload);
       };
       reader.readAsDataURL(file);

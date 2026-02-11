@@ -23,3 +23,10 @@ export const fetchAICalls = async (page = 1, pageSize = 25): Promise<AICallRespo
   }
   return (await response.json()) as AICallResponse;
 };
+
+export const deleteAICall = async (id: number): Promise<void> => {
+  const response = await fetch(`/api/ai-calls/${id}`, { method: "DELETE" });
+  if (!response.ok) {
+    throw new Error(`Failed to delete AI call (${response.status})`);
+  }
+};

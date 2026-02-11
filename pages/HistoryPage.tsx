@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ExtractionStatus, ExtractionRecord } from '../types';
-import { fetchReceipts, exportReceiptsCsv } from "../services/receipts";
+import { fetchReceipts, exportReceiptsCsv, deleteReceipt } from "../services/receipts";
 
 export const HistoryPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -14,7 +14,8 @@ export const HistoryPage: React.FC = () => {
   const [total, setTotal] = useState(0);
   const navigate = useNavigate();
 
-  useEffect(() => {
+  const loadReceipts = () => {
+    console.log("[History] Loading receipts", { searchTerm, statusFilter, categoryFilter, page, pageSize });
     fetchReceipts({
       search: searchTerm,
       status: statusFilter === "all" ? undefined : statusFilter,
@@ -23,15 +24,31 @@ export const HistoryPage: React.FC = () => {
       pageSize
     })
       .then((response) => {
+        console.log("[History] Receipts loaded", { count: response.items.length, total: response.total });
         setRecords(response.items);
         setTotal(response.total);
       })
       .catch((error) => {
-        console.error("Failed to load receipts:", error);
+        console.error("[History] Failed to load receipts:", error);
         setRecords([]);
         setTotal(0);
       });
+  };
+
+  useEffect(() => {
+    loadReceipts();
   }, [searchTerm, statusFilter, categoryFilter, page, pageSize]);
+
+  const handleDelete = async (id: string) => {
+    if (!confirm("Delete this receipt?")) return;
+    console.log("[History] Deleting receipt", { id });
+    try {
+      await deleteReceipt(id);
+      loadReceipts();
+    } catch (error) {
+      console.error("[History] Failed to delete receipt:", error);
+    }
+  };
 
   const totalSpend = records.reduce((sum, r) => sum + r.amount, 0);
   const totalPages = Math.max(Math.ceil(total / pageSize), 1);
@@ -166,8 +183,12 @@ export const HistoryPage: React.FC = () => {
                 }`}>
                   {record.status}
                 </span>
-                <button className="p-2 text-slate-400 hover:text-primary transition-colors hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg">
-                  <span className="material-icons">more_vert</span>
+                <button
+                  onClick={() => handleDelete(String(record.id))}
+                  className="p-2 text-slate-400 hover:text-rose-400 transition-colors hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg"
+                  title="Delete receipt"
+                >
+                  <span className="material-icons">delete</span>
                 </button>
               </div>
             </div>

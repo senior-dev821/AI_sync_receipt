@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { fetchAICalls } from "../services/aiCalls";
+import { fetchAICalls, deleteAICall } from "../services/aiCalls";
 import { AICallRecord } from "../types";
 
 export const AICallsPage: React.FC = () => {
@@ -12,14 +12,16 @@ export const AICallsPage: React.FC = () => {
   const [pageSize] = useState(25);
 
   useEffect(() => {
+    console.log("[AI Calls] Loading calls", { page, pageSize });
     fetchAICalls(page, pageSize)
       .then((response) => {
+        console.log("[AI Calls] Loaded", { count: response.items.length, total: response.total });
         setRecords(response.items);
         setTotal(response.total);
         setSummary(response.summary);
       })
       .catch((error) => {
-        console.error("Failed to load AI calls:", error);
+        console.error("[AI Calls] Failed to load AI calls:", error);
         setRecords([]);
         setTotal(0);
         setSummary({ successCount: 0, errorCount: 0, avgDuration: 0 });
@@ -83,6 +85,21 @@ export const AICallsPage: React.FC = () => {
     link.click();
     link.remove();
     URL.revokeObjectURL(url);
+  };
+
+  const handleDelete = async (id: number) => {
+    if (!confirm("Delete this AI call record?")) return;
+    console.log("[AI Calls] Deleting call", { id });
+    try {
+      await deleteAICall(id);
+      fetchAICalls(page, pageSize).then((response) => {
+        setRecords(response.items);
+        setTotal(response.total);
+        setSummary(response.summary);
+      });
+    } catch (error) {
+      console.error("[AI Calls] Failed to delete call:", error);
+    }
   };
 
   return (
@@ -167,7 +184,8 @@ export const AICallsPage: React.FC = () => {
           <div className="col-span-2">Type</div>
           <div className="col-span-2">Status</div>
           <div className="col-span-2">Duration</div>
-          <div className="col-span-3">Timestamp</div>
+          <div className="col-span-2">Timestamp</div>
+          <div className="col-span-1 text-right">Delete</div>
         </div>
         {filtered.map((record) => (
           <div
@@ -190,8 +208,17 @@ export const AICallsPage: React.FC = () => {
               </span>
             </div>
             <div className="col-span-2 text-slate-600 dark:text-slate-300">{record.duration_ms} ms</div>
-            <div className="col-span-3 text-slate-500 text-xs font-semibold">
+            <div className="col-span-2 text-slate-500 text-xs font-semibold">
               {new Date(record.created_at).toLocaleString()}
+            </div>
+            <div className="col-span-1 flex justify-end">
+              <button
+                onClick={() => handleDelete(record.id)}
+                className="text-slate-400 hover:text-rose-400 transition-colors"
+                title="Delete call"
+              >
+                <span className="material-icons text-base">delete</span>
+              </button>
             </div>
             {record.error && (
               <div className="col-span-12 text-xs text-amber-600 dark:text-amber-400 mt-2">

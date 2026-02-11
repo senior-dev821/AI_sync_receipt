@@ -72,3 +72,10 @@ export const createReceipt = async (record: Omit<ExtractionRecord, "id">): Promi
   const data = (await response.json()) as { id: number };
   return String(data.id);
 };
+
+export const deleteReceipt = async (id: string): Promise<void> => {
+  const response = await fetch(`/api/receipts/${id}`, { method: "DELETE" });
+  if (!response.ok) {
+    throw new Error(`Failed to delete receipt (${response.status})`);
+  }
+};

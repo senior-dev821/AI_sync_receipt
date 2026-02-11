@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { extractReceiptData, ReceiptPayload } from "../services/extract";
 import { createReceipt } from "../services/receipts";
 import { AIResult, ExtractionStatus, ExtractionRecord } from "../types";
@@ -10,10 +10,27 @@ export const VerifyPage: React.FC = () => {
   const [data, setData] = useState<AIResult | null>(null);
   const [isProcessing, setIsProcessing] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
+    const state = location.state as { receipt?: ReceiptPayload; result?: AIResult } | null;
+    if (state?.receipt) {
+      console.log("[Verify] Using receipt from navigation state");
+      setReceipt(state.receipt);
+      if (state.result) {
+        console.log("[Verify] Using result from navigation state");
+        setData(state.result);
+        setIsProcessing(false);
+      } else {
+        performExtraction(state.receipt);
+      }
+      return;
+    }
+
+    console.log("[Verify] Page mounted");
     const raw = localStorage.getItem("pending_receipt");
     if (!raw) {
+      console.warn("[Verify] No pending receipt found, redirecting");
       navigate("/");
       return;
     }
@@ -21,6 +38,7 @@ export const VerifyPage: React.FC = () => {
     if (pending) {
       try {
         const parsedResult = JSON.parse(pending) as AIResult;
+        console.log("[Verify] Using pending result from storage");
         setData(parsedResult);
         setIsProcessing(false);
       } catch {
@@ -31,8 +49,10 @@ export const VerifyPage: React.FC = () => {
     try {
       const parsed = JSON.parse(raw) as ReceiptPayload;
       if (parsed?.dataUrl && parsed?.mimeType) {
+        console.log("[Verify] Loaded pending receipt payload");
         setReceipt(parsed);
         if (!pending) {
+          console.log("[Verify] No pending result, starting extraction");
           performExtraction(parsed);
         }
         return;
@@ -47,22 +67,27 @@ export const VerifyPage: React.FC = () => {
         mimeType: raw.startsWith("data:application/pdf") ? "application/pdf" : "image/jpeg",
         filename: "receipt"
       };
+      console.log("[Verify] Loaded legacy receipt payload");
       setReceipt(legacy);
       if (!pending) {
+        console.log("[Verify] No pending result, starting extraction");
         performExtraction(legacy);
       }
     } else {
+      console.warn("[Verify] Invalid receipt payload, redirecting");
       navigate("/");
     }
   }, [navigate]);
 
   const performExtraction = async (payload: ReceiptPayload) => {
+    console.log("[Verify] Extracting receipt");
     setIsProcessing(true);
     try {
       const result = await extractReceiptData(payload);
+      console.log("[Verify] Extraction result received", result);
       setData(result);
     } catch (err) {
-      console.error(err);
+      console.error("[Verify] Extraction failed:", err);
     } finally {
       setIsProcessing(false);
     }
@@ -70,6 +95,7 @@ export const VerifyPage: React.FC = () => {
 
   const handleApprove = async () => {
     if (!data) return;
+    console.log("[Verify] Approve clicked");
 
     const newRecord: Omit<ExtractionRecord, "id"> = {
       vendor: data.vendor,
@@ -84,12 +110,14 @@ export const VerifyPage: React.FC = () => {
 
     try {
       await createReceipt(newRecord);
+      console.log("[Verify] Receipt saved");
     } catch (error) {
-      console.error("Failed to save receipt:", error);
+      console.error("[Verify] Failed to save receipt:", error);
     }
     
     localStorage.removeItem("pending_receipt");
     localStorage.removeItem("pending_result");
+    console.log("[Verify] Cleared pending data, navigating to history");
     navigate("/history");
   };
 
