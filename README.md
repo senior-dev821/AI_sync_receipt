@@ -2,7 +2,7 @@
 <img width="1200" height="475" alt="GHBanner" src="public/openai.jpg" />
 </div>
 
-# Receipt AI Extraction Demo
+# AISync101
 
 Mobile-first receipt and invoice extraction using the OpenAI API. The app supports photo and PDF uploads, runs extraction on the server, and presents a clean verification UI.
 
@@ -42,3 +42,7 @@ Use a single Node.js web service:
 - Environment variables:
   - `OPENAI_API_KEY`
   - Optional: `OPENAI_MODEL` (defaults to `gpt-4o-mini`)
+
+## License
+
+This project is licensed under the MIT License. See `LICENSE`.
